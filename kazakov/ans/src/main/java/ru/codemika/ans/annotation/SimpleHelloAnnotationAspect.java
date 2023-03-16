@@ -1,5 +1,6 @@
-package svarog.edu.annotation.annotation;
+package ru.codemika.ans.annotation;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,14 +9,16 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 @Aspect
-@Slf4j
 @Component
 @RequiredArgsConstructor
+@Slf4j
+@Data
 public class SimpleHelloAnnotationAspect {
-
-    @Around(value = "@annotation(simHelAnn)")
-    public Object simpleHelloAnnotation(ProceedingJoinPoint proceedingJoinPoint, SimpleHelloAnnotation simHelAnn) throws Throwable {
-        log.info(simHelAnn.text());
+    @Around(value = "@annotation(simpleHelloAnnotation)")
+    public Object simpleHelloAnnotation(ProceedingJoinPoint proceedingJoinPoint, SimpleHelloAnnotation simpleHelloAnnotation) throws Throwable{
+        for (int i = 0; i < 3; i++) {
+            log.info(simpleHelloAnnotation.message());
+        }
         return proceedingJoinPoint.proceed();
     }
 

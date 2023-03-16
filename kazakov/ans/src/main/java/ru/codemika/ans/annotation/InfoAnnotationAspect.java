@@ -1,5 +1,6 @@
-package svarog.edu.annotation.annotation;
+package ru.codemika.ans.annotation;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,16 +9,25 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Aspect
-@Slf4j
 @Component
 @RequiredArgsConstructor
+@Slf4j
+@Data
 public class InfoAnnotationAspect {
+
     @Around(value = "@annotation(infoAnnotation)")
-    public Object infoAnnotation(ProceedingJoinPoint proceedingJoinPoint, InfoAnnotation infoAnnotation) throws Throwable {
+    public Object infoAnnotation(ProceedingJoinPoint proceedingJoinPoint, InfoAnnotation infoAnnotation){
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
-        String methodName = methodSignature.getName();
-        log.info("A user has called the " + methodName + " method");
-        return proceedingJoinPoint.proceed();
+
+        if(methodSignature.getMethod().getName().equals("task2NameMethod")){
+            log.info(infoAnnotation.name());
+        }
+        if(methodSignature.getMethod().getName().equals("task2PhraseMethod")){
+            log.info(infoAnnotation.phrase());
+        }
+        return null;
     }
 }
